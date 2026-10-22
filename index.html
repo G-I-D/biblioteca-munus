@@ -9,19 +9,20 @@
 <style>
   /* Colores del manual de marca MUNUS */
   :root {
-    --beige: #FAF3DC;   /* Pantone 7499 */
+    --bg: #010A1A;      /* Midnight Blue más oscuro, para que resalten los libros */
     --gold: #B59868;    /* Dorado protocolario */
     --navy: #041E42;    /* Midnight Blue, Junta 2027 */
     --text: #FFFBF5;    /* Sugar Milk */
     --muted: #c9cfdb;
     --oak: #3b2416;     /* Roble oscuro */
-    --oak-top: #5a3a24;
+    --oak-top: #6b4630;
+    --hoja: 0 14px 0 14px; /* forma de botón MUNUS: sin redondeo arriba-izq y abajo-der */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body { height: 100%; }
   body {
-    background-color: var(--beige);
-    color: var(--navy);
+    background-color: var(--bg);
+    color: var(--text);
     font-family: Inter, system-ui, sans-serif;
     overflow-x: hidden;
     min-height: 100vh;
@@ -66,7 +67,7 @@
       repeating-linear-gradient(90deg, rgba(0,0,0,0) 0 38px, rgba(0,0,0,.18) 39px, rgba(0,0,0,0) 41px 97px, rgba(255,255,255,.05) 98px, rgba(0,0,0,0) 100px),
       linear-gradient(var(--oak-top), var(--oak) 45%, #2a190f);
     border-radius: 4px;
-    box-shadow: 0 16px 26px rgba(42,25,15,.45), inset 0 2px 0 rgba(255,255,255,.12);
+    box-shadow: 0 16px 26px rgba(0,0,0,.6), inset 0 2px 0 rgba(255,255,255,.18);
   }
 
   .libro {
@@ -83,7 +84,9 @@
     aspect-ratio: var(--ratio, 0.707);
     border-radius: 3px 8px 8px 3px;
     background: #24365a;
-    box-shadow: 0 14px 28px rgba(0,0,0,.5), inset 6px 0 10px rgba(0,0,0,.35);
+    /* filo dorado + halo para separar la portada azul del fondo */
+    box-shadow: 0 0 0 1px rgba(181,152,104,.45), 0 0 34px rgba(181,152,104,.18),
+                0 14px 28px rgba(0,0,0,.6), inset 6px 0 10px rgba(0,0,0,.35);
     transform-origin: left center;
     transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s;
     overflow: hidden;
@@ -100,7 +103,8 @@
   }
   .libro:hover .tapa, .libro:focus-visible .tapa {
     transform: rotateY(-18deg) translateY(-8px);
-    box-shadow: 18px 22px 36px rgba(0,0,0,.6), inset 6px 0 10px rgba(0,0,0,.35);
+    box-shadow: 0 0 0 1px rgba(181,152,104,.7), 0 0 44px rgba(181,152,104,.28),
+                18px 22px 36px rgba(0,0,0,.6), inset 6px 0 10px rgba(0,0,0,.35);
   }
   .libro:focus-visible { outline: 2px solid var(--gold); outline-offset: 8px; border-radius: 6px; }
   .libro .nombre {
@@ -119,31 +123,28 @@
     position: fixed; top: 14px; right: 14px; z-index: 30;
     display: flex; gap: 8px;
   }
-  .audio button {
-    background: rgba(255,251,245,.8);
+  /* Todos los botones con la forma de hoja MUNUS */
+  .audio button, .cerrar, .nav button {
+    background: rgba(4,30,66,.75);
     border: 1px solid var(--gold);
-    color: var(--navy);
-    border-radius: 999px;
-    padding: 8px 14px;
-    font: 600 .85rem Inter, sans-serif;
-    cursor: pointer;
-  }
-  .cerrar, .nav button {
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.18);
-    color: var(--text);
-    border-radius: 999px;
-    padding: 8px 14px;
-    font: 600 .85rem Inter, sans-serif;
+    color: var(--gold);
+    border-radius: var(--hoja);
+    padding: 9px 16px;
+    font: 600 .8rem Inter, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .1em;
     cursor: pointer;
     backdrop-filter: blur(6px);
+    transition: background .2s, color .2s;
   }
+  .audio button:hover, .cerrar:hover, .nav button:hover { background: var(--gold); color: var(--bg); }
+  .nav button { font-size: 1.1rem; padding: 6px 18px; }
   .audio button[aria-pressed="false"] { opacity: .5; }
 
   /* ---------- Lector ---------- */
   .lector {
     position: fixed; inset: 0; z-index: 20;
-    background: rgba(4,30,66,.95);
+    background: rgba(1,10,26,.96);
     display: none;
     flex-direction: column;
     align-items: center;
@@ -215,7 +216,8 @@ const LIBROS = [
   { titulo: "General",   pdf: BASE + "Handbook_General_MUNUS.pdf", central: true },
   { titulo: "Crisis",    pdf: BASE + "Handbook_Crisis_MUNUS.pdf" },
 ];
-// Enlace a un MP3 para la música de fondo. Si se deja vacío, suena una melodía suave generada.
+// Enlace a un MP3 para la música de fondo. Si se deja vacío, suena un lofi original
+// generado en el navegador (sin derechos de autor, sin fin y sin loop audible).
 const MUSICA_URL = "";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc =
@@ -251,7 +253,7 @@ async function renderPagina(pdf, n, anchoObjetivo) {
     g.drawImage(img, (tile / 2 - w) / 2, (tile / 2 - h) / 2, w, h);
     g.drawImage(img, tile / 2 + (tile / 2 - w) / 2, tile / 2 + (tile / 2 - h) / 2, w, h);
     g.globalCompositeOperation = "source-in";
-    g.fillStyle = "rgba(181,152,104,.22)"; // dorado de marca, suave
+    g.fillStyle = "rgba(181,152,104,.13)"; // dorado de marca, suave
     g.fillRect(0, 0, tile, tile);
     document.body.style.backgroundImage = `url(${c.toDataURL()})`;
   };
@@ -407,33 +409,177 @@ function iniciarMusica() {
     audioMp3.play();
     return;
   }
-  // Melodía ambiental suave generada (acordes que cambian lentamente)
-  const salida = ctx.createGain(); salida.gain.value = 0;
-  salida.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 2);
-  const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1200;
-  salida.connect(lp).connect(ctx.destination);
-  const acordes = [[220, 277.18, 329.63], [196, 246.94, 293.66], [174.61, 220, 261.63], [196, 246.94, 329.63]];
-  const osc = acordes[0].map(f => {
-    const o = ctx.createOscillator(); o.type = "triangle"; o.frequency.value = f;
-    o.connect(salida); o.start(); return o;
-  });
-  let k = 0;
-  const timer = setInterval(() => {
-    k = (k + 1) % acordes.length;
-    osc.forEach((o, i) => o.frequency.linearRampToValueAtTime(acordes[k][i], ctx.currentTime + 1.5));
-  }, 6000);
-  musicaNodo = { salida, osc, timer };
+  musicaNodo = lofi();
 }
 
 function detenerMusica() {
   if (audioMp3) audioMp3.pause();
-  if (musicaNodo) {
-    const { salida, osc, timer } = musicaNodo;
-    clearInterval(timer);
-    salida.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.8);
-    setTimeout(() => osc.forEach(o => o.stop()), 900);
-    musicaNodo = null;
+  if (musicaNodo) { musicaNodo.parar(); musicaNodo = null; }
+}
+
+/* ---------- Lofi generativo ----------
+   Música original creada en el momento: acordes de piano eléctrico, bajo, batería suave
+   y crujido de vinilo. La estructura dura ~10 minutos y la melodía y la batería
+   varían cada vez, así que al volver a empezar no se nota el loop. */
+function lofi() {
+  const BPM = 78, SEMI = 60 / BPM / 4; // duración de una semicorchea
+  const midi = n => 440 * Math.pow(2, (n - 69) / 12);
+
+  // Cadena de salida: filtro cálido + compresor + volumen general
+  const master = ctx.createGain(); master.gain.value = 0;
+  master.gain.linearRampToValueAtTime(0.55, ctx.currentTime + 4);
+  const calido = ctx.createBiquadFilter(); calido.type = "lowpass"; calido.frequency.value = 3800;
+  const comp = ctx.createDynamicsCompressor(); comp.threshold.value = -18; comp.ratio.value = 3;
+  master.connect(calido).connect(comp).connect(ctx.destination);
+
+  // Reverb generada
+  const reverb = ctx.createConvolver();
+  const ir = ctx.createBuffer(2, ctx.sampleRate * 2.6, ctx.sampleRate);
+  for (let ch = 0; ch < 2; ch++) {
+    const d = ir.getChannelData(ch);
+    for (let i = 0; i < d.length; i++) d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / d.length, 3);
   }
+  reverb.buffer = ir;
+  const reverbVol = ctx.createGain(); reverbVol.gain.value = 0.35;
+  reverb.connect(reverbVol).connect(master);
+
+  const ruido = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
+  ruido.getChannelData(0).forEach((_, i, d) => d[i] = Math.random() * 2 - 1);
+
+  // Crujido de vinilo (7 s con chasquidos al azar)
+  const vin = ctx.createBuffer(1, ctx.sampleRate * 7, ctx.sampleRate);
+  const vd = vin.getChannelData(0);
+  for (let i = 0; i < vd.length; i++) {
+    vd[i] = (Math.random() * 2 - 1) * 0.004;
+    if (Math.random() < 0.00012) vd[i] = (Math.random() * 2 - 1) * 0.6;
+  }
+  const vinilo = ctx.createBufferSource(); vinilo.buffer = vin; vinilo.loop = true;
+  const vinHP = ctx.createBiquadFilter(); vinHP.type = "highpass"; vinHP.frequency.value = 900;
+  const vinVol = ctx.createGain(); vinVol.gain.value = 0.25;
+  vinilo.connect(vinHP).connect(vinVol).connect(master);
+  vinilo.start();
+
+  // ---- Instrumentos ----
+  function piano(n, t, dur, vel) {
+    const f = midi(n);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.07 * vel, t + 0.012);
+    g.gain.exponentialRampToValueAtTime(0.025 * vel, t + 0.9);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur + 0.6);
+    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1700;
+    g.connect(lp); lp.connect(master); lp.connect(reverb);
+    [[1, 1], [2.001, 0.18], [3, 0.05]].forEach(([m, a]) => {
+      const o = ctx.createOscillator(); o.type = "sine";
+      o.frequency.value = f * m; o.detune.value = (Math.random() - 0.5) * 8; // leve desafinación de cinta
+      const og = ctx.createGain(); og.gain.value = a;
+      o.connect(og).connect(g); o.start(t); o.stop(t + dur + 0.7);
+    });
+  }
+  function campana(n, t, vel) {
+    const o = ctx.createOscillator(); o.type = "triangle"; o.frequency.value = midi(n);
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.05 * vel, t + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.6);
+    o.connect(g); g.connect(master); g.connect(reverb);
+    o.start(t); o.stop(t + 1.7);
+  }
+  function bajo(n, t, dur) {
+    const o = ctx.createOscillator(); o.type = "triangle"; o.frequency.value = midi(n);
+    const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 400;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(0, t);
+    g.gain.linearRampToValueAtTime(0.22, t + 0.02);
+    g.gain.setTargetAtTime(0, t + dur, 0.08);
+    o.connect(lp).connect(g).connect(master);
+    o.start(t); o.stop(t + dur + 0.5);
+  }
+  function bombo(t, vel) {
+    const o = ctx.createOscillator(); o.frequency.setValueAtTime(110, t);
+    o.frequency.exponentialRampToValueAtTime(42, t + 0.14);
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.55 * vel, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.38);
+    o.connect(g).connect(master); o.start(t); o.stop(t + 0.4);
+  }
+  function caja(t, vel) {
+    const s = ctx.createBufferSource(); s.buffer = ruido;
+    const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.frequency.value = 1700; bp.Q.value = 0.7;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.22 * vel, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.2);
+    s.connect(bp).connect(g); g.connect(master); g.connect(reverb);
+    s.start(t, Math.random() * 0.5); s.stop(t + 0.22);
+  }
+  function platillo(t, vel) {
+    const s = ctx.createBufferSource(); s.buffer = ruido;
+    const hp = ctx.createBiquadFilter(); hp.type = "highpass"; hp.frequency.value = 7000;
+    const g = ctx.createGain(); g.gain.setValueAtTime(0.06 * vel, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+    s.connect(hp).connect(g).connect(master);
+    s.start(t, Math.random() * 0.5); s.stop(t + 0.06);
+  }
+
+  // ---- Armonía (Mi bemol mayor: cálida e inspiradora) ----
+  const AC = {
+    Eb: [39, [51, 55, 58, 62]], Cm: [36, [51, 55, 58, 62]], Ab: [44, [51, 55, 56, 60]],
+    Bb: [46, [50, 53, 55, 58]], Gm: [43, [50, 53, 55, 58]], Fm: [41, [51, 55, 56, 60]],
+    Bbs: [46, [51, 55, 56, 60]],
+  };
+  const PROG = [
+    ["Eb", "Cm", "Ab", "Bb"],
+    ["Ab", "Bb", "Gm", "Cm"],
+    ["Fm", "Bbs", "Eb", "Cm"],
+    ["Ab", "Gm", "Fm", "Bb"],
+  ];
+  // Plan de ~10 min: [progresión, batería (0 nada, 1 suave, 2 completa), melodía]
+  const PLAN = [
+    [0,0,0],[0,1,0],[0,2,1],[1,2,1],[2,2,1],[3,2,0],[0,1,1],[1,2,1],
+    [2,2,1],[3,2,1],[2,0,1],[1,1,0],[0,2,1],[3,2,1],[2,2,0],[1,2,1],
+    [0,1,1],[3,0,0],[2,1,1],[1,2,1],[0,2,1],[3,2,1],[2,1,0],[3,1,1],
+  ]; // 24 secciones × 8 compases ≈ 9,8 minutos
+  const PENTA = [63, 65, 67, 70, 72, 75, 77, 79, 82];
+
+  let paso = 0, siguiente = ctx.currentTime + 0.3, notaMel = 4;
+  function programar(t) {
+    const compas = Math.floor(paso / 16), s = paso % 16;
+    const [p, bat, mel] = PLAN[Math.floor(compas / 8) % PLAN.length];
+    const [raiz, voces] = AC[PROG[p][compas % 4]];
+    const swing = (s % 2 === 1) ? SEMI * 0.28 : 0;
+    const tt = t + swing;
+
+    if (s === 0) {
+      voces.forEach((n, i) => piano(n, t + i * 0.018, SEMI * 14, 0.9 + Math.random() * 0.2));
+      bajo(raiz, t, SEMI * 6);
+    }
+    if (s === 10 && Math.random() < 0.6) { // golpe suave de acorde a contratiempo
+      voces.slice(1).forEach((n, i) => piano(n, tt + i * 0.015, SEMI * 5, 0.5));
+      bajo(raiz + (Math.random() < 0.5 ? 7 : 12), tt, SEMI * 4);
+    }
+    if (bat >= 1 && s % 2 === 0) platillo(tt, s % 4 === 0 ? 1 : 0.6);
+    if (bat === 2 && s % 2 === 1 && Math.random() < 0.15) platillo(tt, 0.4);
+    if (bat >= 1 && s === 0) bombo(t, 1);
+    if (bat === 2) {
+      if (s === 7 || (s === 10 && Math.random() < 0.7)) bombo(tt, 0.8);
+      if (s === 4 || s === 12) caja(t, 1);
+    }
+    if (mel && s % 2 === 0 && Math.random() < 0.28) { // melodía pentatónica que camina
+      notaMel = Math.max(0, Math.min(PENTA.length - 1, notaMel + Math.floor(Math.random() * 5) - 2));
+      campana(PENTA[notaMel], tt, 0.7 + Math.random() * 0.3);
+    }
+  }
+  const timer = setInterval(() => {
+    while (siguiente < ctx.currentTime + 0.25) { programar(siguiente); siguiente += SEMI; paso++; }
+  }, 50);
+
+  return {
+    parar() {
+      clearInterval(timer);
+      master.gain.cancelScheduledValues(ctx.currentTime);
+      master.gain.setValueAtTime(master.gain.value, ctx.currentTime);
+      master.gain.linearRampToValueAtTime(0, ctx.currentTime + 1);
+      setTimeout(() => { vinilo.stop(); master.disconnect(); }, 1200);
+    },
+  };
 }
 
 btnMusica.addEventListener("click", () => {
