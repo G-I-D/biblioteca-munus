@@ -9,7 +9,7 @@
 <style>
   /* Colores del manual de marca MUNUS */
   :root {
-    --bg: #010A1A;      /* Midnight Blue más oscuro, para que resalten los libros */
+    --bg: #041E42;      /* Midnight Blue, Junta 2027 */
     --gold: #B59868;    /* Dorado protocolario */
     --navy: #041E42;    /* Midnight Blue, Junta 2027 */
     --text: #FFFBF5;    /* Sugar Milk */
@@ -22,6 +22,10 @@
   html, body { height: 100%; }
   body {
     background-color: var(--bg);
+    /* Patrón de coronas de laurel: una cada 90 px (imagen incluida en el código,
+       así funciona aunque Canva bloquee imágenes externas) */
+    background-image: url("data:image/png;base64,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");
+    background-size: 90px 90px;
     color: var(--text);
     font-family: Inter, system-ui, sans-serif;
     overflow-x: hidden;
@@ -240,28 +244,14 @@ async function renderPagina(pdf, n, anchoObjetivo) {
   return canvas;
 }
 
-/* ---------- Patrón de fondo: corona de laureles dorada ---------- */
-(function patronLaureles() {
-  const img = new Image();
-  img.crossOrigin = "anonymous";
-  img.onload = () => {
-    const tile = 150, w = 50, h = w * img.height / img.width;
-    const c = document.createElement("canvas");
-    c.width = c.height = tile;
-    const g = c.getContext("2d");
-    // Dos coronas por cuadro, intercaladas, con espacio entre sí
-    g.drawImage(img, (tile / 2 - w) / 2, (tile / 2 - h) / 2, w, h);
-    g.drawImage(img, tile / 2 + (tile / 2 - w) / 2, tile / 2 + (tile / 2 - h) / 2, w, h);
-    g.globalCompositeOperation = "source-in";
-    g.fillStyle = "rgba(181,152,104,.13)"; // dorado de marca, suave
-    g.fillRect(0, 0, tile, tile);
-    document.body.style.backgroundImage = `url(${c.toDataURL()})`;
-  };
-  img.src = SITIO + "img/laurel.png";
-})();
-
 /* ---------- Estante con portadas ---------- */
 const estante = document.getElementById("estante");
+// Quita escuchas de una ejecución anterior (clonar un botón borra sus eventos)
+["btnMusica", "btnSonido", "cerrar", "ant", "sig"].forEach(id => {
+  const el = document.getElementById(id);
+  el.replaceWith(el.cloneNode(true));
+});
+estante.innerHTML = ""; // Canva puede ejecutar el código dos veces: así no se duplican los libros
 LIBROS.forEach((libro, i) => {
   const btn = document.createElement("button");
   btn.className = "libro" + (libro.central ? " central" : "");
@@ -367,12 +357,12 @@ function cerrarLibro() {
 document.getElementById("cerrar").addEventListener("click", cerrarLibro);
 document.getElementById("ant").addEventListener("click", () => flip && flip.flipPrev());
 document.getElementById("sig").addEventListener("click", () => flip && flip.flipNext());
-document.addEventListener("keydown", e => {
+document.onkeydown = e => {
   if (!flip) return;
   if (e.key === "ArrowRight") flip.flipNext();
   if (e.key === "ArrowLeft") flip.flipPrev();
   if (e.key === "Escape") cerrarLibro();
-});
+};
 
 /* ---------- Sonido de página y música ---------- */
 let ctx = null, sonidoOn = true, musicaOn = false, musicaNodo = null, audioMp3 = null;
