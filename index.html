@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biblioteca MUNUS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1a2e;
+    --bg2: #1b2b4a;
+    --gold: #d4af6a;
+    --text: #f3ead8;
+    --muted: #a9b3c7;
+    --shelf: #6b4a2e;
+    --shelf-top: #8a6240;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    background: radial-gradient(ellipse at 50% 30%, var(--bg2) 0%, var(--bg) 70%);
+    color: var(--text);
+    font-family: Inter, system-ui, sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ---------- Biblioteca ---------- */
+  header { text-align: center; padding: 48px 16px 8px; }
+  header h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    letter-spacing: .04em;
+    color: var(--gold);
+  }
+  header p { color: var(--muted); margin-top: 6px; font-size: .95rem; }
+
+  .estante {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    gap: clamp(16px, 5vw, 64px);
+    padding: 80px 16px 0;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .estante::after {
+    content: "";
+    position: absolute;
+    left: 5%; right: 5%; bottom: -22px;
+    height: 22px;
+    background: linear-gradient(var(--shelf-top), var(--shelf));
+    border-radius: 4px;
+    box-shadow: 0 18px 30px rgba(0,0,0,.55);
+  }
+
+  .libro {
+    position: relative;
+    width: clamp(90px, 24vw, 230px);
+    cursor: pointer;
+    text-align: center;
+    perspective: 1200px;
+    background: none; border: none; color: inherit; font: inherit;
+  }
+  .libro.central { width: clamp(105px, 28vw, 270px); transform: translateY(-48px); }
+  .tapa {
+    position: relative;
+    aspect-ratio: var(--ratio, 0.707);
+    border-radius: 3px 8px 8px 3px;
+    background: #24365a;
+    box-shadow: 0 14px 28px rgba(0,0,0,.5), inset 6px 0 10px rgba(0,0,0,.35);
+    transform-origin: left center;
+    transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s;
+    overflow: hidden;
+  }
+  .tapa canvas, .tapa img { width: 100%; height: 100%; display: block; object-fit: cover; }
+  .tapa::before { /* lomo */
+    content: ""; position: absolute; inset: 0 auto 0 0; width: 9%;
+    background: linear-gradient(90deg, rgba(0,0,0,.35), rgba(255,255,255,.12) 60%, rgba(0,0,0,0));
+    z-index: 1;
+  }
+  .tapa .cargando {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    color: var(--muted); font-size: .8rem;
+  }
+  .libro:hover .tapa, .libro:focus-visible .tapa {
+    transform: rotateY(-18deg) translateY(-8px);
+    box-shadow: 18px 22px 36px rgba(0,0,0,.6), inset 6px 0 10px rgba(0,0,0,.35);
+  }
+  .libro:focus-visible { outline: 2px solid var(--gold); outline-offset: 8px; border-radius: 6px; }
+  .libro .nombre {
+    font-family: "Cormorant Garamond", serif;
+    font-size: clamp(1rem, 2.4vw, 1.5rem);
+    margin-top: 14px;
+    color: var(--text);
+  }
+  .libro.central .nombre { color: var(--gold); font-weight: 700; }
+
+  /* ---------- Controles de sonido ---------- */
+  .audio {
+    position: fixed; top: 14px; right: 14px; z-index: 30;
+    display: flex; gap: 8px;
+  }
+  .audio button, .cerrar, .nav button {
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 8px 14px;
+    font: 600 .85rem Inter, sans-serif;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+  }
+  .audio button[aria-pressed="false"] { opacity: .5; }
+
+  /* ---------- Lector ---------- */
+  .lector {
+    position: fixed; inset: 0; z-index: 20;
+    background: rgba(8,14,26,.94);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 64px 16px 80px;
+  }
+  .lector.abierto { display: flex; }
+  .lector h2 {
+    position: absolute; top: 18px; left: 16px;
+    font-family: "Cormorant Garamond", serif; color: var(--gold); font-size: 1.4rem;
+  }
+  .cerrar { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); }
+  #flipbook { box-shadow: 0 20px 60px rgba(0,0,0,.6); }
+  .pagina { background: #fff; overflow: hidden; }
+  .pagina img { width: 100%; height: 100%; display: block; object-fit: contain; }
+  .pagina .cargando { height: 100%; display: grid; place-items: center; color: #889; font-size: .9rem; }
+  .nav {
+    position: absolute; bottom: 20px; left: 0; right: 0;
+    display: flex; justify-content: center; align-items: center; gap: 14px;
+  }
+  .nav span { color: var(--muted); font-size: .9rem; min-width: 90px; text-align: center; }
+  .estado { color: var(--muted); }
+
+  @media (max-width: 560px) {
+    .estante { padding-top: 70px; }
+    .libro.central { transform: translateY(-28px); }
+    .lector h2 { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="audio">
+  <button id="btnMusica" aria-pressed="false" title="Música de fondo">♪ Música</button>
+  <button id="btnSonido" aria-pressed="true" title="Sonido al pasar página">Sonido</button>
+</div>
+
+<header>
+  <h1>Biblioteca MUNUS</h1>
+  <p>Elige un manual para leerlo</p>
+</header>
+
+<main class="estante" id="estante"></main>
+
+<section class="lector" id="lector" aria-hidden="true">
+  <h2 id="tituloLector"></h2>
+  <button class="cerrar" id="cerrar">✕ Cerrar</button>
+  <div id="contenedorLibro"></div>
+  <div class="nav">
+    <button id="ant" aria-label="Página anterior">‹</button>
+    <span id="contador"></span>
+    <button id="sig" aria-label="Página siguiente">›</button>
+  </div>
+</section>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/page-flip@2.0.7/dist/js/page-flip.browser.js"></script>
+<script>
+/* =========================================================
+   CONFIGURACIÓN — aquí cambias los libros y la música.
+   El orden es: izquierda, centro, derecha.
+   "pdf" es el enlace directo al PDF (alojado en GitHub Pages).
+   Para cambiar un manual, reemplaza el PDF en GitHub con el mismo nombre.
+   ========================================================= */
+const BASE = "https://g-i-d.github.io/biblioteca-munus/libros/";
+const LIBROS = [
+  { titulo: "Bienestar", pdf: BASE + "Handbook_Bienestar_MUNUS.pdf" },
+  { titulo: "General",   pdf: BASE + "Handbook_General_MUNUS.pdf", central: true },
+  { titulo: "Crisis",    pdf: BASE + "Handbook_Crisis_MUNUS.pdf" },
+];
+// Enlace a un MP3 para la música de fondo. Si se deja vacío, suena una melodía suave generada.
+const MUSICA_URL = "";
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+const docs = {}; // caché de PDFs cargados
+function cargarPDF(url) {
+  if (!docs[url]) docs[url] = pdfjsLib.getDocument(url).promise;
+  return docs[url];
+}
+
+async function renderPagina(pdf, n, anchoObjetivo) {
+  const page = await pdf.getPage(n);
+  const base = page.getViewport({ scale: 1 });
+  const escala = (anchoObjetivo * Math.min(window.devicePixelRatio || 1, 2)) / base.width;
+  const vp = page.getViewport({ scale: escala });
+  const canvas = document.createElement("canvas");
+  canvas.width = vp.width; canvas.height = vp.height;
+  await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
+  return canvas;
+}
+
+/* ---------- Estante con portadas ---------- */
+const estante = document.getElementById("estante");
+LIBROS.forEach((libro, i) => {
+  const btn = document.createElement("button");
+  btn.className = "libro" + (libro.central ? " central" : "");
+  btn.innerHTML = `<div class="tapa"><div class="cargando">Cargando…</div></div>
+                   <div class="nombre">${libro.titulo}</div>`;
+  btn.setAttribute("aria-label", "Abrir manual " + libro.titulo);
+  btn.addEventListener("click", () => abrirLibro(libro));
+  estante.appendChild(btn);
+
+  cargarPDF(libro.pdf).then(async pdf => {
+    const page = await pdf.getPage(1);
+    const vp = page.getViewport({ scale: 1 });
+    btn.querySelector(".tapa").style.setProperty("--ratio", vp.width / vp.height);
+    const canvas = await renderPagina(pdf, 1, 300);
+    const tapa = btn.querySelector(".tapa");
+    tapa.innerHTML = "";
+    tapa.appendChild(canvas);
+  }).catch(() => {
+    btn.querySelector(".cargando").textContent = "No se pudo cargar el PDF";
+  });
+});
+
+/* ---------- Lector con efecto de libro ---------- */
+const lector = document.getElementById("lector");
+const contenedor = document.getElementById("contenedorLibro");
+const contador = document.getElementById("contador");
+let flip = null, pdfActual = null, anchoPagina = 0, renderizadas = new Set();
+
+async function abrirLibro(libro) {
+  arrancarAudio();
+  lector.classList.add("abierto");
+  lector.setAttribute("aria-hidden", "false");
+  document.getElementById("tituloLector").textContent = "Manual " + libro.titulo;
+  contenedor.innerHTML = '<p class="estado">Abriendo libro…</p>';
+  contador.textContent = "";
+
+  pdfActual = await cargarPDF(libro.pdf);
+  const p1 = await pdfActual.getPage(1);
+  const vp = p1.getViewport({ scale: 1 });
+  const ratio = vp.height / vp.width;
+
+  // Tamaño de página que quepa en pantalla (dos páginas lado a lado en pantallas anchas)
+  const dosPaginas = window.innerWidth > 760;
+  const maxAlto = window.innerHeight - 160;
+  const maxAncho = (window.innerWidth - 40) / (dosPaginas ? 2 : 1);
+  anchoPagina = Math.floor(Math.min(maxAncho, maxAlto / ratio));
+  const altoPagina = Math.floor(anchoPagina * ratio);
+
+  contenedor.innerHTML = '<div id="flipbook"></div>';
+  const fb = document.getElementById("flipbook");
+  for (let n = 1; n <= pdfActual.numPages; n++) {
+    const d = document.createElement("div");
+    d.className = "pagina";
+    d.dataset.n = n;
+    d.innerHTML = '<div class="cargando">Página ' + n + '</div>';
+    fb.appendChild(d);
+  }
+
+  renderizadas = new Set();
+  flip = new St.PageFlip(fb, {
+    width: anchoPagina, height: altoPagina,
+    size: "fixed",
+    showCover: true,
+    usePortrait: !dosPaginas,
+    maxShadowOpacity: 0.5,
+    mobileScrollSupport: false,
+    flippingTime: 800,
+  });
+  flip.loadFromHTML(fb.querySelectorAll(".pagina"));
+  flip.on("flip", e => { sonidoPagina(); actualizar(e.data); });
+  actualizar(0);
+}
+
+function actualizar(indice) {
+  const total = pdfActual.numPages;
+  contador.textContent = `${indice + 1} / ${total}`;
+  // Dibuja las páginas cercanas a la actual (así no se cargan todas de golpe)
+  for (let n = Math.max(1, indice - 2); n <= Math.min(total, indice + 7); n++) {
+    if (renderizadas.has(n)) continue;
+    renderizadas.add(n);
+    const pdf = pdfActual;
+    renderPagina(pdf, n, anchoPagina).then(canvas => {
+      if (pdf !== pdfActual) return;
+      const div = contenedor.querySelector(`.pagina[data-n="${n}"]`);
+      if (!div) return;
+      const img = document.createElement("img");
+      img.src = canvas.toDataURL("image/jpeg", 0.9);
+      img.alt = "Página " + n;
+      div.innerHTML = "";
+      div.appendChild(img);
+    });
+  }
+}
+
+function cerrarLibro() {
+  if (flip) { flip.destroy(); flip = null; }
+  pdfActual = null;
+  contenedor.innerHTML = "";
+  lector.classList.remove("abierto");
+  lector.setAttribute("aria-hidden", "true");
+}
+
+document.getElementById("cerrar").addEventListener("click", cerrarLibro);
+document.getElementById("ant").addEventListener("click", () => flip && flip.flipPrev());
+document.getElementById("sig").addEventListener("click", () => flip && flip.flipNext());
+document.addEventListener("keydown", e => {
+  if (!flip) return;
+  if (e.key === "ArrowRight") flip.flipNext();
+  if (e.key === "ArrowLeft") flip.flipPrev();
+  if (e.key === "Escape") cerrarLibro();
+});
+
+/* ---------- Sonido de página y música ---------- */
+let ctx = null, sonidoOn = true, musicaOn = false, musicaNodo = null, audioMp3 = null;
+const btnMusica = document.getElementById("btnMusica");
+const btnSonido = document.getElementById("btnSonido");
+
+function arrancarAudio() {
+  if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+  if (ctx.state === "suspended") ctx.resume();
+}
+
+function sonidoPagina() {
+  if (!sonidoOn || !ctx) return;
+  // Ráfaga de ruido filtrado: imita el roce de una hoja de papel
+  const dur = 0.45;
+  const buf = ctx.createBuffer(1, ctx.sampleRate * dur, ctx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < data.length; i++) {
+    const t = i / data.length;
+    data[i] = (Math.random() * 2 - 1) * Math.pow(Math.sin(Math.PI * t), 2) * (0.6 + 0.4 * Math.random());
+  }
+  const src = ctx.createBufferSource(); src.buffer = buf;
+  const bp = ctx.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 0.8;
+  bp.frequency.setValueAtTime(1800, ctx.currentTime);
+  bp.frequency.linearRampToValueAtTime(4200, ctx.currentTime + dur);
+  const g = ctx.createGain(); g.gain.value = 0.35;
+  src.connect(bp).connect(g).connect(ctx.destination);
+  src.start();
+}
+
+function iniciarMusica() {
+  if (MUSICA_URL) {
+    if (!audioMp3) { audioMp3 = new Audio(MUSICA_URL); audioMp3.loop = true; audioMp3.volume = 0.35; }
+    audioMp3.play();
+    return;
+  }
+  // Melodía ambiental suave generada (acordes que cambian lentamente)
+  const salida = ctx.createGain(); salida.gain.value = 0;
+  salida.gain.linearRampToValueAtTime(0.08, ctx.currentTime + 2);
+  const lp = ctx.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.value = 1200;
+  salida.connect(lp).connect(ctx.destination);
+  const acordes = [[220, 277.18, 329.63], [196, 246.94, 293.66], [174.61, 220, 261.63], [196, 246.94, 329.63]];
+  const osc = acordes[0].map(f => {
+    const o = ctx.createOscillator(); o.type = "triangle"; o.frequency.value = f;
+    o.connect(salida); o.start(); return o;
+  });
+  let k = 0;
+  const timer = setInterval(() => {
+    k = (k + 1) % acordes.length;
+    osc.forEach((o, i) => o.frequency.linearRampToValueAtTime(acordes[k][i], ctx.currentTime + 1.5));
+  }, 6000);
+  musicaNodo = { salida, osc, timer };
+}
+
+function detenerMusica() {
+  if (audioMp3) audioMp3.pause();
+  if (musicaNodo) {
+    const { salida, osc, timer } = musicaNodo;
+    clearInterval(timer);
+    salida.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.8);
+    setTimeout(() => osc.forEach(o => o.stop()), 900);
+    musicaNodo = null;
+  }
+}
+
+btnMusica.addEventListener("click", () => {
+  arrancarAudio();
+  musicaOn = !musicaOn;
+  btnMusica.setAttribute("aria-pressed", musicaOn);
+  musicaOn ? iniciarMusica() : detenerMusica();
+});
+btnSonido.addEventListener("click", () => {
+  arrancarAudio();
+  sonidoOn = !sonidoOn;
+  btnSonido.setAttribute("aria-pressed", sonidoOn);
+});
+</script>
+</body>
+</html>
