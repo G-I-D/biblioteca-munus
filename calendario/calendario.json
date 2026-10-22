@@ -1,0 +1,268 @@
+{
+  "_LEEME": "Edita este archivo en GitHub y guarda (Commit changes). El calendario en Canva se actualiza solo en 1-2 minutos. Fechas siempre en formato AAAA-MM-DD. Las fotos se suben a la carpeta fotos/ y aquí se escribe su nombre, por ejemplo \"fotos/2026-11.jpg\". Deja \"\" para que el mes salga sin foto.",
+  "titulo": "Calendario *diplomático* 2026–2027",
+  "subtitulo": "Junta Directiva 2027 · Qué hacemos cada mes, dónde y con quién",
+  "pie": "MUNUS · Model United Nations Universidad de La Sabana · Junta 2027",
+  "meses": {
+    "desde": "2026-03",
+    "hasta": "2027-04"
+  },
+  "fotos": {
+    "2026-03": "",
+    "2026-04": "",
+    "2026-05": "",
+    "2026-06": "",
+    "2026-07": "",
+    "2026-08": "",
+    "2026-09": "",
+    "2026-10": "",
+    "2026-11": "",
+    "2026-12": "",
+    "2027-01": "",
+    "2027-02": "",
+    "2027-03": "",
+    "2027-04": ""
+  },
+  "countdowns": [
+    {
+      "fecha": "2026-11-06T00:00:00-05:00",
+      "titulo": "Lanzamiento 2027",
+      "cuando": "6 de noviembre de 2026 · Universidad de La Sabana"
+    },
+    {
+      "fecha": "2027-04-15T00:00:00-05:00",
+      "titulo": "MUNUS 2027",
+      "cuando": "15 al 18 de abril de 2027"
+    }
+  ],
+  "whatsapp": "573006615158",
+  "whatsappVisible": "+57 300 661 5158",
+  "correo": "",
+  "redes": [
+    {
+      "red": "instagram",
+      "url": "#",
+      "nombre": "Instagram"
+    },
+    {
+      "red": "tiktok",
+      "url": "#",
+      "nombre": "TikTok"
+    },
+    {
+      "red": "linkedin",
+      "url": "#",
+      "nombre": "LinkedIn"
+    },
+    {
+      "red": "whatsapp",
+      "url": "https://wa.me/573006615158",
+      "nombre": "WhatsApp"
+    }
+  ],
+  "notasIzquierda": [
+    {
+      "color": "hielo",
+      "giro": -3,
+      "pin": "",
+      "titulo": "Ten en cuenta",
+      "lista": ["Código de vestimenta formal en todos los eventos del modelo.", "Lleva tu carné de estudiante.", "Llega 30 minutos antes."]
+    },
+    {
+      "color": "claro",
+      "giro": 2.5,
+      "pin": "vino",
+      "titulo": "Confirma a tiempo",
+      "texto": "Confirma tu asistencia con el botón “Quiero ir” mínimo 48 horas antes de cada evento."
+    }
+  ],
+  "notasDerecha": [
+    {
+      "color": "rosa",
+      "giro": -2,
+      "pin": "azul",
+      "titulo": "Antes del modelo",
+      "texto": "Revisa las guías de tu comité y prepara tu documento de posición."
+    }
+  ],
+  "categorias": {
+    "impacto": {
+      "nombre": "Impacto MUNUS",
+      "leyenda": "Impacto MUNUS · voluntariados",
+      "color": "#93AAC9",
+      "texto": "#00205B"
+    },
+    "modelo": {
+      "nombre": "Evento del modelo",
+      "leyenda": "Eventos del modelo · fechas oficiales",
+      "color": "#003A86",
+      "texto": "#FFFBF5"
+    },
+    "capacitacion": {
+      "nombre": "Capacitación",
+      "leyenda": "Capacitaciones",
+      "color": "#041E42",
+      "texto": "#FFFBF5"
+    },
+    "otros": {
+      "nombre": "Otro modelo",
+      "leyenda": "Otros modelos a los que iremos",
+      "color": "#FAF3DC",
+      "texto": "#00205B"
+    }
+  },
+  "_iconos": "Iconos disponibles: laurel, globo, manos, libro, bandera, pluma, pin, reloj, equipo, cal, ticket",
+  "eventos": [
+    {
+      "inicio": "2026-09-26",
+      "cat": "capacitacion",
+      "icono": "libro",
+      "confirmado": false,
+      "titulo": "Capacitación: documentos de posición",
+      "lugar": "Universidad de La Sabana · salón por confirmar",
+      "hora": "Por confirmar",
+      "descripcion": "Taller práctico para aprender a investigar la postura de tu delegación y redactar un documento de posición claro.",
+      "equipo": ["Secretaría Académica"],
+      "tareas": ["Lleva computador", "Elige un país para practicar"]
+    },
+    {
+      "inicio": "2026-10-10",
+      "cat": "impacto",
+      "icono": "manos",
+      "confirmado": false,
+      "titulo": "Impacto MUNUS: voluntariado",
+      "lugar": "Por confirmar",
+      "hora": "Por confirmar",
+      "descripcion": "Jornada de voluntariado de la campaña Impacto MUNUS.",
+      "equipo": ["Junta Directiva 2027"],
+      "tareas": ["Ropa cómoda", "Confirma asistencia para organizar el transporte"]
+    },
+    {
+      "inicio": "2026-10-24",
+      "cat": "otros",
+      "icono": "bandera",
+      "confirmado": false,
+      "titulo": "Delegación MUNUS en modelo invitado",
+      "lugar": "Por confirmar",
+      "hora": "Por confirmar",
+      "descripcion": "Asistimos como delegación a otro modelo de Naciones Unidas.",
+      "equipo": ["Delegación MUNUS"],
+      "tareas": ["Revisa la guía del comité asignado", "Vestimenta formal"]
+    },
+    {
+      "inicio": "2026-11-06",
+      "cat": "modelo",
+      "icono": "laurel",
+      "confirmado": true,
+      "titulo": "Lanzamiento del modelo 2027",
+      "lugar": "Universidad de La Sabana · Auditorio David Mejía",
+      "hora": "Por confirmar",
+      "descripcion": "Presentamos oficialmente MUNUS 2027: la nueva junta, los comités y todo lo que viene para el modelo.",
+      "equipo": ["Junta Directiva 2027"],
+      "tareas": ["Vestimenta formal", "Llega 30 minutos antes", "Comparte el evento en tus redes"]
+    },
+    {
+      "inicio": "2026-11-28",
+      "cat": "impacto",
+      "icono": "manos",
+      "confirmado": false,
+      "titulo": "Impacto MUNUS: jornada de fin de año",
+      "lugar": "Por confirmar",
+      "hora": "Por confirmar",
+      "descripcion": "Cerramos el año con una jornada de voluntariado.",
+      "equipo": ["Junta Directiva 2027"],
+      "tareas": ["Confirma asistencia"]
+    },
+    {
+      "inicio": "2027-02-06",
+      "cat": "capacitacion",
+      "icono": "libro",
+      "confirmado": false,
+      "titulo": "Capacitación de oratoria",
+      "lugar": "Universidad de La Sabana · salón por confirmar",
+      "hora": "Por confirmar",
+      "descripcion": "Técnicas de discurso, negociación y procedimiento parlamentario.",
+      "equipo": ["Secretaría Académica"],
+      "tareas": ["Prepara un discurso de 1 minuto"]
+    },
+    {
+      "inicio": "2027-02-20",
+      "cat": "modelo",
+      "icono": "pluma",
+      "confirmado": false,
+      "titulo": "Apertura de inscripciones",
+      "lugar": "Virtual",
+      "hora": "Por confirmar",
+      "descripcion": "Se abren las inscripciones para delegados de MUNUS 2027.",
+      "equipo": ["Junta Directiva 2027"],
+      "tareas": ["Difunde el formulario"]
+    },
+    {
+      "inicio": "2027-03-06",
+      "cat": "otros",
+      "icono": "bandera",
+      "confirmado": false,
+      "titulo": "Visita a modelo invitado",
+      "lugar": "Por confirmar",
+      "hora": "Por confirmar",
+      "descripcion": "Delegación de MUNUS en otro modelo del país.",
+      "equipo": ["Delegación MUNUS"],
+      "tareas": ["Vestimenta formal"]
+    },
+    {
+      "inicio": "2027-04-08",
+      "cat": "capacitacion",
+      "icono": "libro",
+      "confirmado": false,
+      "titulo": "Simulacro general de comités",
+      "lugar": "Universidad de La Sabana",
+      "hora": "Por confirmar",
+      "descripcion": "Ensayo general antes del modelo.",
+      "equipo": ["Mesas directivas"],
+      "tareas": ["Lleva las guías de tu comité"]
+    },
+    {
+      "inicio": "2027-04-15",
+      "fin": "2027-04-18",
+      "cat": "modelo",
+      "icono": "globo",
+      "confirmado": true,
+      "titulo": "MUNUS 2027",
+      "lugar": "Universidad de La Sabana",
+      "hora": "Por confirmar",
+      "descripcion": "Cuatro días de debate, diplomacia y comités: el Model United Nations de la Universidad de La Sabana.",
+      "equipo": ["Junta Directiva 2027", "Mesas directivas", "Staff"],
+      "tareas": ["Revisa tarifas y tiquetes", "Vestimenta formal los cuatro días", "Lleva tu carné"],
+      "enlace": "https://xn--investigacinpedaggica-stephanie-q9cg.my.canva.site/ticketes-de-tarifas"
+    }
+  ],
+  "festivos": {
+    "2026-03-23": "Día de San José",
+    "2026-04-02": "Jueves Santo",
+    "2026-04-03": "Viernes Santo",
+    "2026-05-01": "Día del Trabajo",
+    "2026-05-18": "Ascensión del Señor",
+    "2026-06-08": "Corpus Christi",
+    "2026-06-15": "Sagrado Corazón",
+    "2026-06-29": "San Pedro y San Pablo",
+    "2026-07-20": "Independencia de Colombia",
+    "2026-08-07": "Batalla de Boyacá",
+    "2026-08-17": "Asunción de la Virgen",
+    "2026-10-12": "Día de la Diversidad Étnica y Cultural",
+    "2026-11-02": "Todos los Santos",
+    "2026-11-16": "Independencia de Cartagena",
+    "2026-12-08": "Inmaculada Concepción",
+    "2026-12-25": "Navidad",
+    "2027-01-01": "Año Nuevo",
+    "2027-01-11": "Día de los Reyes Magos",
+    "2027-03-22": "Día de San José",
+    "2027-03-25": "Jueves Santo",
+    "2027-03-26": "Viernes Santo"
+  },
+  "mapas": {
+    "Universidad de La Sabana": {
+      "link": "https://maps.app.goo.gl/w9e2bVaa4rQTVbfw8",
+      "embed": "https://www.google.com/maps?q=Universidad+de+La+Sabana,+Ch%C3%ADa,+Cundinamarca&z=15&output=embed"
+    }
+  }
+}

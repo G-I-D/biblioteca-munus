@@ -1,0 +1,186 @@
+{
+  "_LEEME": "Edita este archivo en GitHub y guarda (Commit changes). La página se actualiza sola en 1-2 minutos. \"enlace\": pega el link de la guía (Canva, Drive, PDF…); si lo dejas \"\" el libro dice 'Guía próximamente'. \"lomo\": nombre de la imagen dentro de la carpeta lomos/ (súbela primero). Para poner dos libros juntos usa { \"par\": [libro, libro] }.",
+  "kicker": "Universidad de La Sabana · Guías de comité",
+  "titulo": "MUNUS *2027*",
+  "fechas": "Del 15 al 18 de abril",
+  "lema": "Delega para debatir, debate para construir",
+  "ayuda": "Pasa el cursor sobre un lomo · *haz clic* para abrir su guía",
+  "secciones": [
+    {
+      "nombre": "SGA Tradicionales",
+      "libros": [
+        {
+          "nombre": "DISEC",
+          "tema": "Prevención de la escalada militar y seguridad marítima.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/08-disec.webp"
+        },
+        {
+          "nombre": "SOCHUM",
+          "tema": "Seguridad alimentaria y protección a las comunidades pesqueras.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/06-sochum.webp"
+        },
+        {
+          "nombre": "ECOFIN",
+          "tema": "Comercio marítimo y cadena de suministros.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/07-ecofin.webp"
+        },
+        {
+          "nombre": "Security Council",
+          "tema": "Limits to the expansion of a state's territorial sea.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/04-security-council.webp"
+        },
+        {
+          "nombre": "Conferencia General",
+          "tema": "Reformas estructurales a las Naciones Unidas.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/05-conferencia-general.webp"
+        }
+      ]
+    },
+    {
+      "nombre": "SGA Crisis",
+      "libros": [
+        {
+          "nombre": "GAC · Arcane",
+          "tema": "Una ciudad dividida, dos mundos enfrentados por una lucha por el poder.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/16-gac-arcane.webp"
+        },
+        {
+          "nombre": "GAU · Operación Barbaroja",
+          "tema": "La invasión nazi a la URSS.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/17-gau-operacion-barbaroja.webp"
+        },
+        {
+          "nombre": "Ad Hoc",
+          "tema": "Ream secreto.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/20-ad-hoc.webp"
+        }
+      ]
+    },
+    {
+      "nombre": "SGA Plenipotenciarios",
+      "libros": [
+        {
+          "par": [
+            {
+              "nombre": "Cumbre Global",
+              "tema": "Protección internacional y reconstrucción estatal.",
+              "etiquetas": ["Duplas"],
+              "enlace": "",
+              "lomo": "lomos/13-cumbre-global.webp"
+            },
+            {
+              "nombre": "Cumbre Global",
+              "tema": "Protección internacional y reconstrucción estatal.",
+              "etiquetas": ["Duplas"],
+              "enlace": "",
+              "lomo": "lomos/21-cumbre-global.webp"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "nombre": "SGA Especializados",
+      "libros": [
+        {
+          "nombre": "Tribunal Especial de Revisión de Chernobyl",
+          "tema": "Determinar la responsabilidad institucional detrás del desastre nuclear de Chernóbil.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/09-tribunal-especial-de-revision-de-chernob.webp"
+        },
+        {
+          "nombre": "Mesa de Negociación: Lucky Dragon N.º 5",
+          "tema": "Negociar la reparación y compensación por los daños derivados de una exposición radiactiva.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/11-mesa-de-negociacion-lucky-dragon-n-5.webp"
+        },
+        {
+          "nombre": "The Nuclear Chessboard: The Missile Crisis",
+          "tema": "Military and diplomatic decision-making in the face of the risk of nuclear war.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/10-the-nuclear-chessboard-the-missile-crisi.webp"
+        }
+      ]
+    },
+    {
+      "nombre": "SGA Legados",
+      "libros": [
+        {
+          "nombre": "Consejo de Derechos Humanos de las Naciones Unidas",
+          "tema": "Examen periódico internacional.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/19-consejo-de-derechos-humanos-de-las-nacio.webp"
+        },
+        {
+          "nombre": "UNESCO",
+          "tema": "Educación para la paz y articulación de diálogos en contextos de conflicto.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/18-unesco.webp"
+        }
+      ]
+    },
+    {
+      "nombre": "SGA Beyond Earth",
+      "libros": [
+        {
+          "nombre": "Consejo de Gobernanza de los Acuerdos Artemis",
+          "tema": "Reglas para la presencia humana fuera de la Tierra.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/14-consejo-de-gobernanza-de-los-acuerdos-ar.webp"
+        }
+      ]
+    },
+    {
+      "nombre": "SGA de Prensa",
+      "libros": [
+        {
+          "par": [
+            {
+              "nombre": "IPC · International Press Corps",
+              "tema": "Reportaje global.",
+              "etiquetas": ["Individual", "Bilingüe"],
+              "enlace": "",
+              "lomo": "lomos/15-ipc-international-press-corps.webp"
+            },
+            {
+              "nombre": "IPC · International Press Corps",
+              "tema": "Reportaje global.",
+              "etiquetas": ["Individual", "Bilingüe"],
+              "enlace": "",
+              "lomo": "lomos/22-ipc-international-press-corps.webp"
+            }
+          ]
+        },
+        {
+          "nombre": "Comité Ético",
+          "tema": "Caso Johnny Depp & Amber Heard.",
+          "etiquetas": ["Individual"],
+          "enlace": "",
+          "lomo": "lomos/12-comite-etico.webp"
+        }
+      ]
+    }
+  ]
+}
